@@ -1,0 +1,167 @@
+import 'package:flutter/material.dart';
+import 'package:mi_app/app_styles.dart';
+
+class RegistroPage extends StatefulWidget {
+  const RegistroPage({super.key});
+
+  @override
+  State<RegistroPage> createState() => _RegistroPageState();
+}
+
+// Manejo de validaciones y controladores de texto para los campos de email, contraseña y usuario
+class _RegistroPageState extends State<RegistroPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _userController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _userController.dispose();
+    super.dispose();
+  }
+
+  // Función para manejar el registro
+  void _registrar() {
+    if (_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Registrando usuario: ${_userController.text}")),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFFFAF6F), Color(0xFFFFDFC6)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 40.0,
+            ),
+
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Text(
+                    "Registro",
+                    style: AppStyles.tituloPrincipal,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 30),
+
+                  // Campo Email
+                  TextFormField(
+                    style: AppStyles.textoGeneral,
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.email),
+                      hintText: "example@gmail.com",
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintStyle: TextStyle(fontFamily: 'verdana'),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Por favor ingresa tu correo";
+                      }
+                      if (!value.contains("@")) {
+                        return "Ingresa un correo válido";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Campo Contraseña
+                  TextFormField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.lock),
+                      hintText: "Contraseña",
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintStyle: TextStyle(fontFamily: 'verdana'),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Por favor ingresa tu contraseña";
+                      }
+                      if (value.length < 6) {
+                        return "Debe tener al menos 6 caracteres";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Campo Usuario
+                  TextFormField(
+                    controller: _userController,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.person),
+                      hintText: "Nombre de usuario",
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      hintStyle: AppStyles.textoGeneral,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Por favor ingresa tu nombre de usuario";
+                      }
+                      if (value.length < 3) {
+                        return "Debe tener al menos 3 caracteres";
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 30),
+
+                  // Botón Acceder
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFFF9541),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onPressed: _registrar,
+                      child: const Text("REGISTRARSE", style: AppStyles.boton),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
