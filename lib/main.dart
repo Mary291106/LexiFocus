@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'Componentes/pantalla-carga.dart';
+import 'Componentes/pantalla-carga.dart';
 import 'Componentes/home.dart';
 
 void main() {
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // Pantalla de inicio de la aplicación
-      home: const HomePage(), // Pantalla de carga inicial
+      home: const LexiFocusApp(), // Pantalla de carga inicial
     );
   }
 }

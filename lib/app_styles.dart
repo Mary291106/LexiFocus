@@ -27,7 +27,7 @@ class AppStyles {
   // Estilo para botones
   static const boton = TextStyle(
     fontFamily: 'OpenDyslexic', // Monoespaciada
-    fontSize: 16,
+    fontSize: 24,
     fontWeight: FontWeight.bold,
     color: Colors.white,
   );

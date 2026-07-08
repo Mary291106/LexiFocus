@@ -42,23 +42,28 @@ class StartScreen extends StatelessWidget {
             child: ClipPath(
               clipper: WhiteClipper(),
               child: Container(
-                color: Colors.white,
-                height: 700, // sube la curva blanca
+                color: const Color.fromARGB(255, 241, 239, 239),
+                height: 800, // sube la curva blanca
                 child: Center(
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      // Imagen del pato
-                      Image.asset("assets/mascotaO.png", height: 800),
-
+                      Positioned(
+                        bottom: 0, // ajusta la posición vertical
+                        child: Image.asset(
+                          "assets/mascotaO.png",
+                          height: 600,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                       // Botón encima de la imagen
                       Positioned(
-                        bottom: 40, // ajusta la posición vertical
+                        bottom: 120, // ajusta la posición vertical
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFFFF9541),
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 40,
+                              horizontal: 50,
                               vertical: 15,
                             ),
                             shape: RoundedRectangleBorder(
@@ -114,14 +119,14 @@ class WhiteClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    path.lineTo(0, size.height - 350);
+    path.lineTo(0, size.height - 600);
 
     // Curva hacia arriba
     path.quadraticBezierTo(
       size.width / 2,
-      size.height - 600, // punto de control más arriba
+      size.height - 800, // punto de control más arriba
       size.width,
-      size.height - 320, // punto final
+      size.height - 600, // punto final
     );
 
     path.lineTo(size.width, size.height);

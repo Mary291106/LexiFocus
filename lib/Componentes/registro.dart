@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mi_app/app_styles.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:mi_app/Componentes/firebase_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegistroPage extends StatefulWidget {
   const RegistroPage({super.key});
@@ -15,21 +19,29 @@ class _RegistroPageState extends State<RegistroPage> {
   final _passwordController = TextEditingController();
   final _userController = TextEditingController();
 
+  //Para registrar
+  Future<void> _registrarUsuario() async {
+    try {
+      final String email = _emailController.text.trim();
+      final String password = _passwordController.text.trim();
+      final String usuario = _userController.text.trim();
+      UserCredential cred = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      await FirebaseFirestore.instance
+          .collection("usuarios")
+          .doc(cred.user!.uid)
+          .set({"nombre": usuario, "email": email});
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     _userController.dispose();
     super.dispose();
-  }
-
-  // Función para manejar el registro
-  void _registrar() {
-    if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Registrando usuario: ${_userController.text}")),
-      );
-    }
   }
 
   @override
@@ -152,7 +164,18 @@ class _RegistroPageState extends State<RegistroPage> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
-                      onPressed: _registrar,
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          await _registrarUsuario();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                "Registrando usuario: ${_userController.text}",
+                              ),
+                            ),
+                          );
+                        }
+                      },
                       child: const Text("REGISTRARSE", style: AppStyles.boton),
                     ),
                   ),
