@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mi_app/app_styles.dart';
 import 'registro.dart';
 import 'home.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:mi_app/Componentes/firebase_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,7 +20,20 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
+  //Para iniciar sesión
+  Future<void> _iniciarSesion() async{
+    try{
+        final String email =  _emailController.text.trim();
+        final String password = _passwordController.text.trim();
+        UserCredential cred = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,jk
+        password: password,
+        );
+        print("el usuario es: ${cred.user!.uid}");
+    }catch(e){
+        print("Error: $e");
+    }
+  }
   @override
   void dispose() {
     _emailController.dispose();
@@ -145,7 +163,15 @@ class _LoginPageState extends State<LoginPage> {
                   Text("¿No tienes una cuenta?", style: AppStyles.textoGeneral),
 
                   TextButton(
-                    onPressed: () {
+                    onPressed: () async{
+                      if (_formKey.currentState!.validate()) {
+                        await _iniciarSesion();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Iniciando sesión con: ${_emailController.text}"),
+                          ),
+                        );
+                      }
                       Navigator.push(
                         context,
                         MaterialPageRoute(
