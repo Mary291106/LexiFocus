@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "225188156551",
+    "project_id": "lexifocus-b41ff",
+    "storage_bucket": "lexifocus-b41ff.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:225188156551:android:63230513fe127e72111422",
+        "android_client_info": {
+          "package_name": "com.example.lexi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfHhtPMrqoYN4Z7jmwh4p_iME4o0let4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:225188156551:android:9ec334005f206e6a111422",
+        "android_client_info": {
+          "package_name": "com.example.mi_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfHhtPMrqoYN4Z7jmwh4p_iME4o0let4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

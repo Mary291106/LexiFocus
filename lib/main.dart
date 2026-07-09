@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'Componentes/pantalla-carga.dart';
 import 'Componentes/home.dart';
+import 'Componentes/login_page.dart';
+import 'Componentes/registro.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
