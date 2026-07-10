@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'Componentes/pantalla-carga.dart';
-import 'Componentes/home.dart';
-import 'Componentes/login_page.dart';
-import 'Componentes/registro.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:mi_app/Componentes/firebase_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+//import 'Componentes/home.dart';
+//import 'Componentes/login_page.dart';
+//import 'Componentes/registro.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
