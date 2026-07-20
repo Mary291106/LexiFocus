@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mi_app/app_styles.dart';
+import 'package:mi_app/Componentes/relacion.dart';
+import 'package:mi_app/Componentes/perfil.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -48,7 +50,7 @@ class _HomePageState extends State<HomePage> {
       case 1:
         return Center(child: NivelScreen());
       case 2:
-        return Center(child: Text("Pantalla de Perfil"));
+        return Center(child: const PerfilScreen());
       default:
         return Container();
     }
@@ -59,10 +61,20 @@ class NivelScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        NivelCard("Nivel 1", "assets/mascota.png", false),
+        NivelCard(
+          "Nivel 1",
+          "assets/mascota.png",
+          false,
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const pageRelacion()),
+          ),
+        ),
+        const SizedBox(height: 20),
         NivelCard("Nivel 2", "assets/mascota.png", true),
+        const SizedBox(height: 20),
         NivelCard("Nivel 3", "assets/mascota.png", true),
       ],
     );
@@ -73,31 +85,36 @@ class NivelCard extends StatelessWidget {
   final String titulo;
   final String imagen;
   final bool bloqueado;
+  final VoidCallback? onTap;
 
-  NivelCard(this.titulo, this.imagen, this.bloqueado);
+  NivelCard(this.titulo, this.imagen, this.bloqueado, {this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: const Color(0xFFFFC081),
+    return GestureDetector(
+      onTap: bloqueado ? null : onTap,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                width: 120,
+                height: 120,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: const Color(0xFFFFC081),
+                ),
+                child: Image.asset(imagen),
               ),
-              child: Image.asset(imagen),
-            ),
-            if (bloqueado) Icon(Icons.lock, size: 40, color: Colors.black54),
-          ],
-        ),
-        SizedBox(height: 8),
-        Text(titulo, style: AppStyles.subtitulo),
-      ],
+              if (bloqueado) Icon(Icons.lock, size: 60, color: Colors.black54),
+            ],
+          ),
+          const SizedBox(width: 16), // espacio entre imagen y texto
+          Text(titulo, style: AppStyles.subtitulo),
+        ],
+      ),
     );
   }
 }

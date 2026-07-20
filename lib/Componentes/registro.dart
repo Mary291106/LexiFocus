@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mi_app/app_styles.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:mi_app/Componentes/firebase_options.dart';
+//import 'package:firebase_core/firebase_core.dart';
+//import 'package:mi_app/Componentes/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -9,7 +9,7 @@ class RegistroPage extends StatefulWidget {
   const RegistroPage({super.key});
 
   @override
-  State<RegistroPage> createState() => _RegistroPageState();
+  State<RegistroPage> createState() => _RegistroPageState(); //manejo de estado para el registro de usuario
 }
 
 // Manejo de validaciones y controladores de texto para los campos de email, contraseña y usuario
@@ -67,6 +67,7 @@ class _RegistroPageState extends State<RegistroPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  Icon(Icons.person, size: 120),
                   const Text(
                     "Registro",
                     style: AppStyles.tituloPrincipal,

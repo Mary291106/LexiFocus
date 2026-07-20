@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mi_app/app_styles.dart';
+import 'package:mi_app/Componentes/responsivo.dart';
 import 'login_page.dart';
 
 void main() {
@@ -11,9 +12,28 @@ class LexiFocusApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: StartScreen(),
-      debugShowCheckedModeBanner: false,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final mediaQuery = MediaQuery.of(context);
+        final responsivo = Responsivo(
+          constraints: constraints,
+          mediaQuery: mediaQuery,
+        );
+
+        return MaterialApp(
+          title: 'LexiFocus',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
+            useMaterial3: true,
+          ),
+          home: responsivo.getValue<Widget>(
+            mobile: const StartScreen(),
+            tablet: const StartScreen(),
+            desktop: const StartScreen(),
+          ),
+        );
+      },
     );
   }
 }
@@ -64,7 +84,7 @@ class StartScreen extends StatelessWidget {
                             backgroundColor: const Color(0xFFFF9541),
                             padding: const EdgeInsets.symmetric(
                               horizontal: 50,
-                              vertical: 15,
+                              vertical: 25,
                             ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
