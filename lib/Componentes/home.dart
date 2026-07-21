@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mi_app/app_styles.dart';
 import 'package:mi_app/Componentes/relacion.dart';
 import 'package:mi_app/Componentes/perfil.dart';
+import 'package:mi_app/Componentes/rimas.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -73,7 +74,14 @@ class NivelScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        NivelCard("Nivel 2", "assets/mascota.png", true),
+        NivelCard(
+          "Nivel 2", 
+          "assets/mascota.png", false,
+          onTap: ()=> Navigator.push(
+            context,
+          MaterialPageRoute(builder: (context)=> const pageRimas()),
+          ),
+        ),
         const SizedBox(height: 20),
         NivelCard("Nivel 3", "assets/mascota.png", true),
       ],
