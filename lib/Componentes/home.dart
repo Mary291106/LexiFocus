@@ -70,7 +70,7 @@ class NivelScreen extends StatelessWidget {
           false,
           onTap: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const pageRelacion()),
+            MaterialPageRoute(builder: (context) => const PageRelacion()),
           ),
         ),
         const SizedBox(height: 20),
@@ -79,7 +79,7 @@ class NivelScreen extends StatelessWidget {
           "assets/mascota.png", false,
           onTap: ()=> Navigator.push(
             context,
-          MaterialPageRoute(builder: (context)=> const pageRimas()),
+          MaterialPageRoute(builder: (context)=> const PageRimas()),
           ),
         ),
         const SizedBox(height: 20),

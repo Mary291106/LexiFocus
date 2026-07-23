@@ -1,145 +1,153 @@
 import 'package:flutter/material.dart';
 import 'package:mi_app/app_styles.dart';
+import 'package:mi_app/Componentes/api.dart';
 
-
-class pageRelacion extends StatelessWidget {
-  const pageRelacion({super.key});
+class PageRelacion extends StatefulWidget{
+  const PageRelacion([Key? key]) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Ejercicio de Relación", style: AppStyles.subtitulo),
-        centerTitle: true,
-        backgroundColor: const Color(0xFFFFE9CD),
-      ),
-      body: const ejerciciorelacion(),
-    );
-  }
+  State<PageRelacion> createState() => _PageRelacion();
 }
 
-class ejerciciorelacion extends StatelessWidget {
-  //final Api api= Api();
-  const ejerciciorelacion({super.key});
+class _PageRelacion extends State<PageRelacion>{
+  late Future<List<EjercicioRelacion>> futureEjerciciosRelacion; //falta cambiar esot
+  int currentIndex = 0;
 
   @override
-  Widget build(BuildContext context) {
+  void initState(){
+    super.initState();
+    futureEjerciciosRelacion = ApiRelacion().getEjerciciosRelacion(); 
+  }
+
+  @override
+  Widget build(BuildContext context){
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFFFFAF6F), Color(0xFFFFDFC6)],
             begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+            end: Alignment.bottomCenter
           ),
         ),
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24.0,
-              vertical: 16.0,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children:[
-                const Text('Relaciona la palabra con la imagen',
-                style: TextStyle(fontSize: 20),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFF9541), 
-                        foregroundColor: const Color(0xFFFFFFFF),
-                        minimumSize: const Size(150, 200),  // ancho y alto mínimo
-                        padding: const EdgeInsets.all(16), // espacio interno
-                        shape: RoundedRectangleBorder(     // bordes redondeados
-                          borderRadius: BorderRadius.circular(12),
+        child: FutureBuilder<List<EjercicioRelacion>>(
+          future: futureEjerciciosRelacion,
+          builder: (context, snapshot){
+            if (snapshot.connectionState == ConnectionState.waiting){
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError){
+              return Center(child: Text("Error: ${snapshot.error}"));
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty){
+              return const Center(child: Text("No hay ejercicios disponibles"));
+            }
+
+            final ejerciciosRel = snapshot.data!;
+            final ejercicioRel = ejerciciosRel[currentIndex];
+
+            return SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal:24.0 , vertical:16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children:[
+                  const Text("Relaciona la palabra con la imagen", style: TextStyle(fontSize:20),),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children:[
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFF9541), 
+                          foregroundColor: const Color(0xFFFFFFFF),
+                          minimumSize: const Size(150, 200),  // ancho y alto mínimo
+                          padding: const EdgeInsets.all(16), // espacio interno
+                          shape: RoundedRectangleBorder(     // bordes redondeados
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
+                        child: Text(ejercicioRel.column_derech[0])
                       ),
-                      child: const Text('Palabra 1')
-                    ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFFFFFF), 
-                        minimumSize: const Size(150, 200),  
-                        padding: const EdgeInsets.all(16), 
-                        shape: RoundedRectangleBorder(     
-                          borderRadius: BorderRadius.circular(12),
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFFFFFF), 
+                          minimumSize: const Size(150, 200),  
+                          padding: const EdgeInsets.all(16), 
+                          shape: RoundedRectangleBorder(     
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
+                        child: Text(ejercicioRel.column_izq[0])
                       ),
-                      child: const Text('Imagen 1')
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20), //eespacio entre filas
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {}, 
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFF9541),
-                        foregroundColor: const Color(0xFFFFFFFF),
-                        minimumSize: const Size(150, 200),  
-                        padding: const EdgeInsets.all(16), 
-                        shape: RoundedRectangleBorder(     
-                          borderRadius: BorderRadius.circular(12),
+                    ]
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children:[
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFF9541), 
+                          foregroundColor: const Color(0xFFFFFFFF),
+                          minimumSize: const Size(150, 200),  
+                          padding: const EdgeInsets.all(16), 
+                          shape: RoundedRectangleBorder(    
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
+                        child: Text(ejercicioRel.column_derech[1])
                       ),
-                      child: const Text('Palabra 2')),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFFFFFF),
-                        minimumSize: const Size(150, 200),  
-                        padding: const EdgeInsets.all(16),
-                        shape: RoundedRectangleBorder(     
-                          borderRadius: BorderRadius.circular(12),
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFFFFFF), 
+                          minimumSize: const Size(150, 200),  
+                          padding: const EdgeInsets.all(16), 
+                          shape: RoundedRectangleBorder(     
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
+                        child: Text(ejercicioRel.column_izq[1])
                       ),
-                      child: const Text('Imagen 2')),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFF9541),
-                        foregroundColor: const Color(0xFFFFFFFF),
-                        minimumSize: const Size(150, 200),  
-                        padding: const EdgeInsets.all(16), 
-                        shape: RoundedRectangleBorder(     
-                          borderRadius: BorderRadius.circular(12),
+                    ]
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children:[
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFF9541), 
+                          foregroundColor: const Color(0xFFFFFFFF),
+                          minimumSize: const Size(150, 200),  
+                          padding: const EdgeInsets.all(16), 
+                          shape: RoundedRectangleBorder(     
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
+                        child: Text(ejercicioRel.column_derech[2])
                       ),
-                      child: const Text('Palabra 3')),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFFFFFF),
-                        minimumSize: const Size(150, 200),  
-                        padding: const EdgeInsets.all(16), 
-                        shape: RoundedRectangleBorder(     
-                          borderRadius: BorderRadius.circular(12),
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFFFFFF), 
+                          minimumSize: const Size(150, 200),  
+                          padding: const EdgeInsets.all(16), 
+                          shape: RoundedRectangleBorder(     
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                         ),
+                        child: Text(ejercicioRel.column_izq[2])
                       ),
-                      child: const Text('Imagen 3')),
-                  ],
-                )
-              ]
-            ),
-          ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
